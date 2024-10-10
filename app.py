@@ -1,4 +1,5 @@
 from flask import Flask, jsonify, request, Response
+from flask_cors import CORS
 import config
 from exemplo_sql import (
     listarLocais, criarLocal, obterLocal, atualizarLocal, deletarLocal,
@@ -6,6 +7,7 @@ from exemplo_sql import (
 )
 
 app = Flask(__name__)
+CORS(app)
 
 # Rotas para Locais
 @app.get('/locais')
