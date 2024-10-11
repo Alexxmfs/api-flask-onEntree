@@ -2,11 +2,22 @@ from flask import Flask, jsonify, request, Response
 from flask_cors import CORS
 import config
 from exemplo_sql import (
-    listarLocais, criarLocal, obterLocal, atualizarLocal, deletarLocal, listarEventos, obterEvento, criarEvento, atualizarEvento, deletarEvento
+    listarLocais, criarLocal, obterLocal, atualizarLocal, deletarLocal, listarEventos, obterEvento, criarEvento, atualizarEvento, deletarEvento, listarLocaisPorNome
 )
 
 app = Flask(__name__)
 CORS(app)
+
+# Rota para pesquisar Locais
+@app.get('/pesquisar-locais')
+def pesquisar_locais():
+    nome = request.args.get('nome')  # Obtém o parâmetro de consulta 'nome'
+    if not nome:
+        return Response(status=400)  # Retorna status 400 se não fornecer um nome
+
+    locais = listarLocaisPorNome(nome)
+    return jsonify(locais)
+
 
 # Rotas para Locais
 @app.get('/locais')

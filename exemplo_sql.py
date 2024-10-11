@@ -4,6 +4,34 @@ import config
 
 engine = create_engine(config.conn_str)
 
+def listarLocaisPorNome(nome):
+    with Session(engine) as sessao:
+        parametros = {'nome': f'%{nome}%'}  # Usar '%' para pesquisa parcial
+        locais = sessao.execute(
+            text("SELECT * FROM locais WHERE nome LIKE :nome ORDER BY nome"),
+            parametros
+        ).fetchall()
+        lista_locais = [
+            {
+                'id_local': local.id_local,
+                'nome': local.nome,
+                'apelido': local.apelido,
+                'tipo': local.tipo,
+                'cnpj': local.cnpj,
+                'cidade': local.cidade,
+                'estado': local.estado,
+                'cep': local.cep,
+                'complemento': local.complemento,
+                'endereco': local.endereco,
+                'email': local.email,
+                'telefone': local.telefone,
+                'nome_entrada': local.nome_entrada,
+                'nome_catraca': local.nome_catraca
+            } for local in locais
+        ]
+        return lista_locais
+
+
 def listarLocais():
     with Session(engine) as sessao:
         locais = sessao.execute(
