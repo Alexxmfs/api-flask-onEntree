@@ -2,7 +2,7 @@ from flask import Flask, jsonify, request, Response
 from flask_cors import CORS
 import config
 from exemplo_sql import (
-    listarLocais, criarLocal, obterLocal, atualizarLocal, deletarLocal, listarEventos, obterEvento, criarEvento, atualizarEvento, deletarEvento, listarLocaisPorNome, listarEventosComLocal
+    listarLocais, criarLocal, obterLocal, atualizarLocal, deletarLocal, listarEventos, obterEvento, criarEvento, atualizarEvento, deletarEvento, listarLocaisPorNome, listarEventosComLocal, listarEventosPorNome
 )
 
 app = Flask(__name__)
@@ -103,6 +103,15 @@ def deletar_evento(id_evento):
     deletado = deletarEvento(id_evento)
     return Response(status=200 if deletado else 404)
 
+# Rota para pesquisar eventos
+@app.get('/pesquisar-eventos')
+def pesquisar_eventos():
+    nome = request.args.get('nome')
+    if not nome:
+        return Response(status=400)
+
+    eventos = listarEventosPorNome(nome)
+    return jsonify(eventos)
 
 if __name__ == '__main__':
     app.run(host=config.host, port=config.port, debug=True)

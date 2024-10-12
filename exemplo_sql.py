@@ -327,3 +327,49 @@ def listarEventosComLocal():
             } for evento in eventos
         ]
         return lista_eventos
+
+def listarEventosPorNome(nome):
+    with Session(engine) as sessao:
+        parametros = {'nome': f'%{nome}%'}
+        eventos = sessao.execute(
+            text("""
+                SELECT 
+                    e.id_evento,
+                    e.nome AS evento_nome,
+                    e.data_evento,
+                    e.horario_evento,
+                    e.tipo AS evento_tipo,
+                    e.email,
+                    e.telefone,
+                    e.id_local,
+                    l.nome AS local_nome,
+                    l.endereco AS local_endereco,
+                    l.nome_entrada AS local_portões
+                FROM 
+                    eventos e
+                INNER JOIN 
+                    locais l ON e.id_local = l.id_local
+                WHERE 
+                    e.nome LIKE :nome
+                ORDER BY e.data_evento, e.horario_evento
+            """),
+            parametros
+        ).fetchall()
+        lista_eventos = [
+            {
+                'id_evento': evento.id_evento,
+                'nome': evento.evento_nome,
+                'data_evento': evento.data_evento,
+                'horario_evento': str(evento.horario_evento), 
+                'tipo': evento.evento_tipo,
+                'email': evento.email,
+                'telefone': evento.telefone,
+                'id_local': evento.id_local,
+                'local': {
+                    'nome': evento.local_nome,
+                    'endereco': evento.local_endereco,
+                    'portões': evento.local_portões
+                }
+            } for evento in eventos
+        ]
+        return lista_eventos
