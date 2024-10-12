@@ -2,7 +2,7 @@ from flask import Flask, jsonify, request, Response
 from flask_cors import CORS
 import config
 from exemplo_sql import (
-    listarLocais, criarLocal, obterLocal, atualizarLocal, deletarLocal, listarEventos, obterEvento, criarEvento, atualizarEvento, deletarEvento, listarLocaisPorNome, listarEventosComLocal, listarEventosPorNome
+    listarLocais, criarLocal, obterLocal, atualizarLocal, deletarLocal, obterEvento, criarEvento, atualizarEvento, deletarEvento, listarLocaisPorNome, listarEventosComLocal, listarEventosPorNome
 )
 
 app = Flask(__name__)
@@ -92,8 +92,11 @@ def criar_evento():
     criarEvento(**dados)
     return Response(status=201)
 
-@app.put('/atualizar-eventos/<int:id_evento>')
+@app.route('/atualizar-eventos/<int:id_evento>', methods=['PUT', 'OPTIONS'])
 def atualizar_evento(id_evento):
+    if request.method == 'OPTIONS':
+        return Response(status=200)
+
     dados = request.json
     atualizado = atualizarEvento(id_evento, **dados)
     return Response(status=200 if atualizado else 404)

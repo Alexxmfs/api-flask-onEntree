@@ -230,7 +230,7 @@ def atualizarEvento(id_evento, nome, data_evento, horario_evento, tipo, email, t
             parametros
         )
         return resultado.rowcount > 0
-
+    
 def deletarEvento(id_evento):
     with Session(engine) as sessao, sessao.begin():
         parametros = {'id_evento': id_evento}
