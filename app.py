@@ -38,7 +38,8 @@ def listar_locais():
             'email': local['email'],
             'telefone': local['telefone'],
             'nome_entrada': local['nome_entrada'],
-            'nome_catraca': local['nome_catraca']
+            'nome_catraca': local['nome_catraca'],
+            'data_atualizacao': local['data_atualizacao']
         } for local in locais
     ]
     return jsonify(lista)
@@ -65,6 +66,11 @@ def atualizar_local(id_local):
     dados = request.json
     atualizado = atualizarLocal(id_local, **dados)
     return Response(status=200 if atualizado else 404)
+
+@app.delete('/deletar-locais/<int:id_local>')
+def deletar_local(id_local):
+    deletado = deletarLocal(id_local)
+    return Response(status=200 if deletado else 404)
 
 # Rotas para Eventos
 @app.get('/eventos')

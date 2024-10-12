@@ -31,5 +31,8 @@ CREATE TABLE eventos (
     FOREIGN KEY (id_local) REFERENCES locais(id_local)
 );
 
+ALTER TABLE locais
+ADD COLUMN data_atualizacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;
+
 SELECT * FROM locais;
 SELECT * FROM eventos;
