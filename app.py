@@ -6,7 +6,7 @@ from exemplo_sql import (
 )
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}})
 
 # Rota para pesquisar Locais
 @app.get('/pesquisar-locais')
@@ -57,17 +57,14 @@ def criar_local():
     criarLocal(**dados)
     return Response(status=201)
 
-@app.put('/atualizar-locais/<int:id_local>')
+@app.route('/atualizar-locais/<int:id_local>', methods=['PUT', 'OPTIONS'])
 def atualizar_local(id_local):
+    if request.method == 'OPTIONS':
+        return Response(status=200)
+
     dados = request.json
     atualizado = atualizarLocal(id_local, **dados)
     return Response(status=200 if atualizado else 404)
-
-@app.delete('/deletar-locais/<int:id_local>')
-def deletar_local(id_local):
-    deletado = deletarLocal(id_local)
-    return Response(status=200 if deletado else 404)
-
 
 # Rotas para Eventos
 @app.get('/eventos')
