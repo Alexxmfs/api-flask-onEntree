@@ -2,7 +2,7 @@ from flask import Flask, jsonify, request, Response
 from flask_cors import CORS
 import config
 from exemplo_sql import (
-    listarLocais, criarLocal, obterLocal, atualizarLocal, deletarLocal, listarEventos, obterEvento, criarEvento, atualizarEvento, deletarEvento, listarLocaisPorNome
+    listarLocais, criarLocal, obterLocal, atualizarLocal, deletarLocal, listarEventos, obterEvento, criarEvento, atualizarEvento, deletarEvento, listarLocaisPorNome, listarEventosComLocal
 )
 
 app = Flask(__name__)
@@ -75,20 +75,8 @@ def deletar_local(id_local):
 # Rotas para Eventos
 @app.get('/eventos')
 def listar_eventos():
-    eventos = listarEventos()
-    lista = [
-        {
-            'id_evento': evento['id_evento'],
-            'nome': evento['nome'],
-            'data_evento': evento['data_evento'],
-            'horario_evento': str(evento['horario_evento']),  # Converte timedelta para string
-            'tipo': evento['tipo'],
-            'email': evento['email'],
-            'telefone': evento['telefone'],
-            'id_local': evento['id_local']
-        } for evento in eventos
-    ]
-    return jsonify(lista)
+    eventos = listarEventosComLocal()
+    return jsonify(eventos)
 
 @app.get('/eventos/<int:id_evento>')
 def obter_evento(id_evento):
@@ -114,6 +102,7 @@ def atualizar_evento(id_evento):
 def deletar_evento(id_evento):
     deletado = deletarEvento(id_evento)
     return Response(status=200 if deletado else 404)
+
 
 if __name__ == '__main__':
     app.run(host=config.host, port=config.port, debug=True)
