@@ -9,7 +9,7 @@ import os
 host = os.getenv("HOST", "0.0.0.0")
 
 # Use a variável de ambiente PORT
-port = int(os.getenv("PORT", 5000))
+port = int(os.getenv("PORT", 5001))
 
-# Use a variável de ambiente DATABASE_URL para se conectar ao banco de dados do Render
+# Use a variável de ambiente DATABASE_URL para se conectar ao banco de dados
 conn_str = os.getenv("DATABASE_URL")
