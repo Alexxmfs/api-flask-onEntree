@@ -1,6 +1,6 @@
-# Projeto Web
+# Back-end OnEntrée
 
-Projeto Web
+![Badge em Desenvolvimento](http://img.shields.io/static/v1?label=STATUS&message=%20FINALIZADO&color=GREEN&style=for-the-badge)
 
 Para executar, deve criar o arquivo `config.py` da seguinte forma:
 
