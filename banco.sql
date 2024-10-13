@@ -34,9 +34,6 @@
 	ALTER TABLE locais
 	ADD COLUMN data_atualizacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;
 
-	SELECT * FROM locais;
-	SELECT * FROM eventos;
-
 	ALTER TABLE eventos
 	ADD COLUMN email VARCHAR(255);
 
@@ -51,6 +48,9 @@
 
 	INSERT INTO eventos (nome, data_evento, horario_evento, tipo, id_local)
 	VALUES 
-	('Show de Rock', '2024-11-15', '20:00:00', 'Música', 9),
-	('Feira de Artesanato', '2024-12-01', '10:00:00', 'Feira', 9);
+	('Show de Rock', '2024-11-15', '20:00:00', 'Música', 1),
+	('Feira de Artesanato', '2024-12-01', '10:00:00', 'Feira', 1);
 
+
+	SELECT * FROM locais;
+	SELECT * FROM eventos;
